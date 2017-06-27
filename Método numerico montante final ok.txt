@@ -1,0 +1,86 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp12
+{
+    class Program
+    {
+        static void imprime(double[,] matriz)//esta funcion muestra los datos
+        {
+            for (int i = 0; i < matriz.GetLength(0); i++)
+            {
+                for (int j = 0; j < matriz.GetLength(1); j++)
+                {
+                    Console.Write("{0}", matriz[i, j]);
+                    Console.Write(" ");
+                }
+                Console.WriteLine();
+            }
+        }
+        static void Main(string[] args)
+        {
+
+            
+                Console.Write("¿Cuántas incógnitas tiene su sistema?");
+                int n = Convert.ToInt32(Console.ReadLine());
+                int columnas = n + 1;
+                
+           
+                Double[,] Mat = new double[n, columnas];
+                for (int i = 0; i < n; i++) 
+                {
+                    Console.WriteLine("Ingrese los valores de la Ecuación " + (i + 1));
+                    for (int j = 0; j < columnas; j++)
+                    {
+                        Mat[i, j] = Convert.ToDouble(Console.ReadLine());
+                    }
+                }
+                Console.WriteLine(Environment.NewLine);
+                imprime(Mat); 
+                Console.WriteLine(Environment.NewLine);
+                Procedimiento(Mat); //Mostrar matrices de resultantes
+               
+        }
+        static void Procedimiento(double[,] Mat)
+        {
+            int n = Mat.GetLength(0);
+            double pivant = 1;
+            double x;
+            for (int i = 0; i < n; i++)
+            {
+                Console.WriteLine();
+                for (int k = 0; k < n; k++)
+                {
+                    if (k != i)
+                    {
+                        for (int j = i + 1; j < n + 1; j++)
+                        {
+                            //Operación cruzada con los pivotes
+                            Mat[k, j] = ((Mat[i, i] * Mat[k, j]) - (Mat[k, i] * Mat[i, j])) / pivant;
+                        }
+                    }
+                }
+                pivant = Mat[i, i]; //asignación de Valor al pivote
+                imprime(Mat);
+            }
+            Console.WriteLine();
+            Console.WriteLine("La solución de sus incógnitas son: ");
+
+            for (int i = 0; i < n; i++)
+            {
+                x = (Mat[i, Mat.GetLength(1) - 1]) / pivant;
+                Console.WriteLine("Incógnita" + (i+1)+" ="+ x);
+
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+
+
+
+    
